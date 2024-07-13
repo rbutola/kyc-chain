@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZKP Proof Generation</title>
+</head>
+<body>
+    <h2>ZKP Proof Generation</h2>
+
+    <label for="dob">Date of Birth:</label>
+    <input type="date" id="dob" name="dob"><br><br>
+
+    <!-- Button to generate proof -->
+    <button onclick="generateProof()">Generate Proof</button>
+
+    <script>
+        // Function to generate proof
+        async function generateProof() {
+            const dateOfBirth = document.getElementById('dob').value;
+
+            if (!dateOfBirth) {
+                alert('Please enter your date of birth.');
+                return;
+            }
+
+            try {
+                const currentYear = new Date().getFullYear();
+
+                const requestData = {
+                    dob: dateOfBirth,
+                    currentYear: currentYear,
+                };
+
+                const response = await fetch('http://localhost:3000/generate-proof', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(requestData),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to generate proof');
+                }
+
+                const result = await response.json();
+                console.log('Proof generated successfully:', result);
+
+                alert('Proof generated successfully!');
+
+            } catch (err) {
+                console.error('Error generating proof:', err);
+                alert('Error generating proof. Please try again.');
+            }
+        }
+    </script>
+</body>
+</html>
+

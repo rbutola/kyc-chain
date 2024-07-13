@@ -1,0 +1,92 @@
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"errors"
+	"fmt"
+	"log"
+
+	"github.com/ethereum/go-ethereum/accounts/abi"
+	"github.com/ethereum/go-ethereum/accounts/abi/bind"
+	"github.com/ethereum/go-ethereum/common"
+	"github.com/ethereum/go-ethereum/ethclient"
+)
+
+type KYCRegistry struct {
+	*KYCRegistrySession
+}
+
+type KYCRegistrySession struct {
+	contract     *bind.BoundContract
+	client       *ethclient.Client
+	from         common.Address
+	contractAddr common.Address
+}
+
+func NewKYCRegistry(client *ethclient.Client, contractAddr common.Address, from common.Address) (*KYCRegistry, error) {
+
+	var kycRegistryABI abi.ABI
+	err := json.Unmarshal([]byte(KYCRegistryABI), &kycRegistryABI)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	parsed := bind.NewBoundContract(contractAddr, kycRegistryABI, nil, nil, nil)
+	if parsed == nil {
+		return nil, errors.New("Parsed is nil - ERROR")
+	}
+	return &KYCRegistry{
+		&KYCRegistrySession{
+			contract:     parsed,
+			client:       client,
+			from:         from,
+			contractAddr: contractAddr,
+		},
+	}, nil
+}
+
+func (s *KYCRegistrySession) IsKYCed(ctx context.Context, address common.Address) (bool, error) {
+	opt := bind.CallOpts{}
+	opt.Context = ctx
+	method := []interface{}{"isKYCed"}
+	args := []interface{}{address}
+	result := s.contract.Call(&opt, &method, args...)
+	if result.Err != nil {
+		return false, errors.New("error calling isKYCed")
+	}
+	return result.Bool(), nil
+}
+
+func (s *KYCRegistrySession) SetKYCStatus(ctx context.Context, address common.Address, status bool) (common.Hash, error) {
+	transactOpts := bind.NewKeyedTransactor(s.from)
+
+	tx, err := s.contract.Transact(ctx, "setKYCStatus", transactOpts, address, status)
+	if err != nil {
+		return common.Hash{}, err
+	}
+	return tx.Hash(), nil
+}
+
+var KYCRegistryABI = `[{"inputs":[{"internalType":"address","name":"_address","type":"address"}],"name":"isKYCed","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_address","type":"address"},{"internalType":"bool","name":"_status","type":"bool"}],"name":"setKYCStatus","outputs":[],"stateMutability":"nonpayable","type":"function"}]`
+
+func main() {
+	client, err := ethclient.Dial("127.0.0.1:8545")
+	if err != nil {
+		log.Fatal(err)
+	}
+	contractAddr := common.HexToAddress("0x3A807221560e4b34652333183A9B03A2FE5885A7") // Replace with your contract address
+	// Set the from address
+	fromAddr := common.HexToAddress("0x5D9BD6F09052372b1ECA8D72e917AEb19566a33b") // Replace with your from address
+
+	kycRegistry, err := NewKYCRegistry(client, contractAddr, fromAddr)
+	if err != nil {
+		log.Fatal(err)
+	}
+	address := common.HexToAddress("0x5D9BD6F09052372b1ECA8D72e917AEb19566a33b") // Replace with the address to check
+	kycStatus, err := kycRegistry.IsKYCed(context.Background(), address)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(kycStatus)
+}

@@ -1,0 +1,67 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "KYCRegistry",
+  "sourceName": "contracts/KYCRegistry.sol",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_address",
+          "type": "address"
+        }
+      ],
+      "name": "isKYCed",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "kycedAddresses",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_address",
+          "type": "address"
+        },
+        {
+          "internalType": "bool",
+          "name": "_status",
+          "type": "bool"
+        }
+      ],
+      "name": "setKYCStatus",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x608060405234801561001057600080fd5b5061024f806100206000396000f3fe608060405234801561001057600080fd5b50600436106100415760003560e01c8063a3f569ae14610046578063b4c7f1ed14610096578063dae42815146100f0575b600080fd5b6100946004803603604081101561005c57600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff16906020019092919080351515906020019092919050505061014a565b005b6100d8600480360360208110156100ac57600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff1690602001909291905050506101a4565b60405180821515815260200191505060405180910390f35b6101326004803603602081101561010657600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff1690602001909291905050506101f9565b60405180821515815260200191505060405180910390f35b806000808473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060006101000a81548160ff0219169083151502179055505050565b60008060008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060009054906101000a900460ff169050919050565b60006020528060005260406000206000915054906101000a900460ff168156fea26469706673582212206d41054b02fc4e3ec798bcc08e30c429a21c61ed337fbdd0a6fa67ea777be44464736f6c63430007030033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100415760003560e01c8063a3f569ae14610046578063b4c7f1ed14610096578063dae42815146100f0575b600080fd5b6100946004803603604081101561005c57600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff16906020019092919080351515906020019092919050505061014a565b005b6100d8600480360360208110156100ac57600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff1690602001909291905050506101a4565b60405180821515815260200191505060405180910390f35b6101326004803603602081101561010657600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff1690602001909291905050506101f9565b60405180821515815260200191505060405180910390f35b806000808473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060006101000a81548160ff0219169083151502179055505050565b60008060008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060009054906101000a900460ff169050919050565b60006020528060005260406000206000915054906101000a900460ff168156fea26469706673582212206d41054b02fc4e3ec798bcc08e30c429a21c61ed337fbdd0a6fa67ea777be44464736f6c63430007030033",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}
